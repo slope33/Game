@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Discover Colombia Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f9f9f9; }
+    h1 { color: #1a3c8e; }
+    .question { margin: 20px; font-size: 20px; }
+    button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    #result { margin-top: 20px; font-size: 18px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Discover Colombia 🇨🇴</h1>
+  <div class="question" id="question"></div>
+  <div id="answers"></div>
+  <p id="result"></p>
+
+  <script>
+    let score = 0;
+    let current = 0;
+
+    const quiz = [
+      {
+        q: "What is the capital city of Colombia?",
+        answers: ["Medellín", "Cali", "Bogotá", "Cartagena"],
+        correct: 2
+      },
+      {
+        q: "Which country does NOT share a border with Colombia?",
+        answers: ["Ecuador", "Peru", "Venezuela", "Brazil"],
+        correct: 3
+      },
+      {
+        q: "Which city is known as the 'City of Eternal Spring'?",
+        answers: ["Barranquilla", "Medellín", "Bucaramanga", "Pereira"],
+        correct: 1
+      }
+    ];
+
+    function loadQuestion() {
+      document.getElementById("question").innerText = quiz[current].q;
+      let answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+      quiz[current].answers.forEach((ans, i) => {
+        let btn = document.createElement("button");
+        btn.innerText = ans;
+        btn.onclick = () => checkAnswer(i);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(i) {
+      if (i === quiz[current].correct) {
+        score++;
+        document.getElementById("result").innerText = "✅ Correct!";
+      } else {
+        document.getElementById("result").innerText = "❌ Wrong!";
+      }
+      current++;
+      if (current < quiz.length) {
+        setTimeout(loadQuestion, 1000);
+      } else {
+        setTimeout(showResults, 1000);
+      }
+    }
+
+    function showResults() {
+      document.body.innerHTML = `
+        <h1>Game Over 🎉</h1>
+        <p>Your final score: ${score} / ${quiz.length}</p>
+        <p>Thanks for playing Discover Colombia!</p>
+      `;
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
